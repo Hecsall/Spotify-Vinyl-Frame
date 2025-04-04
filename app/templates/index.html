@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Vinyl Frame</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" /> 
+</head>
+<body>
+    {% if is_authenticated %}
+        <div class="page">      
+            <div class="vinyl-container">
+                <div class="vinyl" style="background-image: url('{{ url_for('static', filename='vinyl.png') }}')">
+                    <div class="track-image" style="background-image: url('{{song.item.album.images[0].url}}')"></div>
+                </div>
+            </div>        
+        </div>
+        <div class="metadata">
+            <div class="title">{{song.item.name}}</div>
+            <div class="artists">
+                {% for artist in song.item.artists %}
+                    {{artist.name}}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <a href="{{ auth_url }}">Sign in with Spotify</a>
+    {% endif %}
+
+</body>
+</html>
